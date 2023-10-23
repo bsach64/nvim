@@ -88,16 +88,6 @@ local mappings = {
     ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
 
 -- Language Support
-    l = {
-        name = "LSP",
-        i = { "<cmd>LspInfo<cr>", "Info" },
-        r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-        S = {
-            "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-            "Workspace Symbols",
-        },
-    },
 
     -- Telescope
     f = {
