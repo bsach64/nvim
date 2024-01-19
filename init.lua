@@ -248,6 +248,11 @@ require('lazy').setup({
     ft = {"go", 'gomod'},
     build = ':lua require("go.install").update_all_sync()'
   },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = true
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -546,7 +551,7 @@ require('which-key').register {
   ['<leader>n'] = { name = '[N]ew Workspace', _ = 'which_key_ignore' },
   ['<leader>k'] = { "<cmd>bdelete<CR>", "[K]ill Buffer"},
   ['<leader>w'] = { "<cmd>w!<CR>", "[W]rite"},
-  ['<leader>q'] = { "<cmd>wqall!<CR>", "[Q]uit"},
+  ['<leader>q'] = { "<cmd>qall<CR>", "[Q]uit"},
   ['<leader>e'] = { "<cmd>NvimTreeToggle<CR>", "File [E]xplorer"},
 }
 -- register which-key VISUAL mode
@@ -574,7 +579,7 @@ local servers = {
   clangd = {},
   -- rust_analyzer = {},
   tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs'} },
   gopls = {
     filetypes = { "go", "gomod", "gowork", "gotmpl" },
     settings = {
@@ -682,6 +687,16 @@ require("bufferline").setup{
       reveal = {'close'}
     }
   }
+}
+
+require("toggleterm").setup{
+  size = 15,
+  open_mapping = [[<c-\>]],
+  hide_numbers = true,
+  direction = "float",
+  close_on_exit = true,
+  shell = vim.o.shell,
+  auto_scroll = true
 }
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
