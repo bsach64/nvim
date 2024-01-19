@@ -696,7 +696,15 @@ require("toggleterm").setup{
   direction = "float",
   close_on_exit = true,
   shell = vim.o.shell,
-  auto_scroll = true
+  auto_scroll = true,
+  float_opts = {
+    width = function()
+      return math.floor(vim.o.columns * 0.7)
+    end,
+    height = function()
+      return math.floor(vim.o.lines * 0.7)
+    end,
+  }
 }
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
