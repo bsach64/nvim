@@ -1,6 +1,8 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -147,14 +149,20 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- 'olimorris/onedarkpro.nvim',
-    'neg-serg/neg.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'neg'
-    end,
-  },
+  -- {
+  --   -- theme
+  --   -- 'Shatur/neovim-ayu',
+  --   -- 'olimorris/onedarkpro.nvim',
+  --   -- 'neg-serg/neg.nvim',
+  --   'mountain-theme/vim',
+  --   -- 'lokesh-krishna/mountain.nvim',
+  --   -- 'datsfilipe/vesper.nvim',
+  --   -- 'EdenEast/nightfox.nvim',
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'mountaineer' -- neg
+  --   end,
+  -- },
 
   {
     -- Set lualine as statusline
@@ -253,6 +261,9 @@ require('lazy').setup({
     version = "*",
     config = true
   },
+  {
+    "jghauser/follow-md-links.nvim"
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -271,7 +282,6 @@ vim.o.mouse = 'a'
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
-
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -416,16 +426,7 @@ local function telescope_live_grep_open_files()
 end
 vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
 vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-
--- [[ Configure Treesitter ]]
+vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' }) vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' }) vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' }) vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' }) vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' }) vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' }) vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' }) vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' }) -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
@@ -706,5 +707,16 @@ require("toggleterm").setup{
     end,
   }
 }
+
+vim.cmd[[colorscheme mountaineer]]
+vim.cmd[[colorscheme mountaineer]]
+
+-- require("nightfox").setup{
+--   palettes = {
+--     all = {
+--       bg = "#000000"
+--     }
+--   }
+-- }
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
