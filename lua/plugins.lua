@@ -10,7 +10,6 @@ PLUGINS = {
 	--
 	--  This is equivalent to: require('Comment').setup({}) "gc" to comment visual regions/lines
 	{ "numToStr/Comment.nvim", opts = {} },
-
 	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`. This is equivalent to the following Lua:
 	--    require('gitsigns').setup({ ... })
@@ -526,16 +525,22 @@ PLUGINS = {
 		--
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
 		-- "folke/tokyonight.nvim",
-		"Mofiqul/adwaita.nvim",
+		-- "bluz71/vim-moonfly-colors",
+		-- "rebelot/kanagawa.nvim",
+		"dasupradyumna/midnight.nvim",
+		-- "Mofiqul/adwaita.nvim",
 		lazy = false,
 		priority = 1000,
 		-- configure and set on startup
 		config = function()
-			vim.g.adwaita_darker = true -- for darker version
-			vim.cmd("colorscheme adwaita")
-			vim.api.nvim_set_hl(0, "NvimTreeFolderName", { bold = false })
-			vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { bold = false })
-			vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { bold = false })
+			-- vim.g.adwaita_darker = true -- for darker version
+			local colors = require('midnight.colors')
+			-- colors.palette.black = '#ffffff'
+			colors.components.bg = '#000000'
+			vim.cmd("colorscheme midnight")
+			-- vim.api.nvim_set_hl(0, "NvimTreeFolderName", { bold = false })
+			-- vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { bold = false })
+			-- vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { bold = false })
 		end,
 		-- "Biscuit-Theme/nvim",
 		-- lazy = false,
@@ -648,8 +653,5 @@ PLUGINS = {
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		config = true,
-	},
-	{
-		"ThePrimeagen/vim-be-good",
 	},
 }
