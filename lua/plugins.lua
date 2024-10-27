@@ -48,20 +48,17 @@ PLUGINS = {
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		config = function() -- This is the function that runs, AFTER loading
 			require("which-key").setup()
-
-			-- Document existing key chains
-			require("which-key").register({
-				["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-				["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-				["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-				["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-				["<leader>a"] = { name = "worksp[a]ce", _ = "which_key_ignore" },
-				["<leader>e"] = { "<cmd>NvimTreeToggle<CR>", "File [E]xplorer" },
-				["<leader>q"] = { "<cmd>qall<CR>", "[q]uit" },
-				["<leader>k"] = { "<cmd>bdelete<CR>", "[K]ill Buffer" },
-				["<leader>w"] = { "<cmd>w<CR>", "[w]rite" },
-			})
 		end,
+
+		-- Document existing key chains
+		spec = {
+			{ '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+			{ '<leader>d', group = '[D]ocument' },
+			{ '<leader>r', group = '[R]ename' },
+			{ '<leader>s', group = '[S]earch' },
+			{ '<leader>w', group = '[W]orkspace' },
+			{ '<leader>t', group = '[T]oggle' },
+		},
 	},
 
 	-- NOTE: Plugins can specify dependencies.
@@ -653,5 +650,9 @@ PLUGINS = {
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		config = true,
+	},
+	{
+		"lsig/messenger.nvim",
+		opts = {}
 	},
 }

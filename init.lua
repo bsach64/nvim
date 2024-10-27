@@ -90,6 +90,14 @@ require("toggleterm").setup({
 		end,
 	},
 })
+
+
+require("which-key").add({
+			{"<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File [E]xplorer" },
+			{"<leader>q","<cmd>qall<CR>", desc = "[q]uit" },
+			{"<leader>k","<cmd>bdelete<CR>", desc = "[K]ill Buffer" },
+			{"<leader>w","<cmd>w<CR>", desc = "[w]rite" },
+})
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
