@@ -653,6 +653,8 @@ PLUGINS = {
 	},
 	{
 		"lsig/messenger.nvim",
-		opts = {}
+		opts = {
+			border = "single"
+		}
 	},
 }

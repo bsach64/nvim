@@ -98,6 +98,8 @@ require("which-key").add({
 			{"<leader>k","<cmd>bdelete<CR>", desc = "[K]ill Buffer" },
 			{"<leader>w","<cmd>w<CR>", desc = "[w]rite" },
 })
+
+vim.keymap.set("n", "<leader>m", require("messenger").show, {desc = "Show Commit Message"} )
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
