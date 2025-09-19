@@ -33,3 +33,5 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 vim.keymap.set("n", "<tab>", ":bnext<cr>", { noremap = true, silent = true }) -- Next Tab
 vim.keymap.set("n", "<s-tab>", ":bprevious<cr>", { noremap = true, silent = true }) -- Previous Tab
+vim.keymap.set("n", "<C-n>", "<cmd>cnext<CR>", { noremap = true, silent = true }) -- Next Quickfix
+vim.keymap.set("n", "<C-p>", "<cmd>cnext<CR>", { noremap = true, silent = true }) -- Prev Quickfix
