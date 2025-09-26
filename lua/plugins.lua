@@ -648,4 +648,7 @@ PLUGINS = {
 			border = "single"
 		}
 	},
+	{
+		"tpope/vim-fugitive",
+	},
 }
