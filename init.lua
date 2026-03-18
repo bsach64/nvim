@@ -1,115 +1,97 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+-- options --
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.showmode = false
+vim.opt.clipboard = "unnamedplus"
+vim.opt.undofile = true
+vim.opt.signcolumn = "yes"
+vim.opt.hlsearch = true
+vim.o.termguicolors = true
+
+-- globals --
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = true
+-- plugins --
+vim.pack.add({
+	"https://github.com/tpope/vim-sleuth",
+	"https://github.com/lewis6991/gitsigns.nvim",
+	"https://github.com/nvim-mini/mini.pairs",
+	"https://github.com/nvim-lua/plenary.nvim",
+	"https://github.com/nvim-telescope/telescope.nvim",
+	"https://github.com/nvim-lualine/lualine.nvim",
+	"https://github.com/stevearc/oil.nvim",
+	"https://github.com/WTFox/jellybeans.nvim",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/tpope/vim-fugitive",
+	"https://github.com/rafamadriz/friendly-snippets",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	{ src = "https://github.com/saghen/blink.cmp", version = 'v1.10.1' },
+})
 
-require("options")
-require("keymaps")
+-- plugins: setup --
+require("gitsigns").setup({
+	signs = {
+		add = { text = "+" },
+		change = { text = "~" },
+		delete = { text = "_" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+	},
+})
+require("mini.pairs").setup({})
+require("telescope").setup({})
+require("lualine").setup({ options = { theme = "auto" } })
+require("oil").setup({})
+require("jellybeans").setup({ italics = false })
+-- grn (to rename current variable)
+-- grr (get all references in quick fix list)
+-- crtl + S in insert mode tells you signature of func
+require("blink.cmp").setup({
+	keymap = { preset = 'default' },
+	completion = { documentation = { auto_show = false } },
+	sources = { default = {'lsp', 'path', 'snippets', 'buffer'} },
+	fuzzy = { implementation = 'prefer_rust_with_warning'}
+})
+vim.lsp.config("*", { capabilities = require('blink.cmp').get_lsp_capabilities() })
+vim.lsp.enable({"gopls", "rust_analyzer", "clangd", "pyright", "bash-language-server"})
+local languages = { 'rust', 'c', 'python', 'go', 'lua', 'bash' }
+require("nvim-treesitter").install(languages)
 
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
+vim.cmd("colorscheme jellybeans-muted")
 
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
+-- keymaps --
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- clear search with Esc
+vim.keymap.set("n", "<C-h>", "<C-w><C-h>") -- Move focus to left window
+vim.keymap.set("n", "<C-l>", "<C-w><C-l>") -- Move focus to right window
+vim.keymap.set("n", "<C-j>", "<C-w><C-j>") -- Move focus to lower window
+vim.keymap.set("n", "<C-k>", "<C-w><C-k>") -- Move focus to upper window
+vim.keymap.set("n", "<leader>w", ":write<CR>") -- write the current buffer
+vim.keymap.set("n", "<leader>u", ":source<CR> :update<CR>") -- source the current file
+vim.keymap.set("n", "<leader>q", ":quit<CR>") -- quit
+vim.keymap.set("n", "<leader>k", ":bdelete<CR>") -- kill buffer
+-- keymaps: plugins --
+vim.keymap.set("n", "<leader>e", ":Oil<CR>") -- Oil
+vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files)
+vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep)
+vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string) -- search word
+vim.keymap.set("n", "<leader>sr", require("telescope.builtin").lsp_references) -- search references
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions)
+vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations)
+vim.keymap.set("n", "<leader>E", vim.diagnostic.setloclist) -- show errors
+-- in case of switching between buffers be in normal mode instead
+vim.keymap.set("n", "<leader><leader>", function() require("telescope.builtin").buffers({ initial_mode = "normal" }) end)
+
+-- misc
+-- highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
-require("plugins")
-
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-end ---@diagnostic disable-next-line: undefined-field
-vim.opt.rtp:prepend(lazypath)
-
-require("lazy").setup(PLUGINS, {
-	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-		icons = vim.g.have_nerd_font and {} or {
-			cmd = "⌘",
-			config = "🛠",
-			event = "📅",
-			ft = "📂",
-			init = "⚙",
-			keys = "🗝",
-			plugin = "🔌",
-			runtime = "💻",
-			require = "🌙",
-			source = "📄",
-			start = "🚀",
-			task = "📌",
-			lazy = "💤 ",
-		},
-	},
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = languages,
+	callback = function() vim.treesitter.start() end
 })
-
-require("lualine").setup({
-	options = {
-		theme = "auto",
-	},
-})
-
-require("bufferline").setup({
-	options = {
-		hover = {
-			enabled = true,
-			delay = 150,
-			reveal = { "close" },
-		},
-	},
-})
-
-require("toggleterm").setup({
-	size = 15,
-	open_mapping = [[<c-\>]],
-	hide_numbers = true,
-	direction = "float",
-	close_on_exit = true,
-	shell = vim.o.shell,
-	auto_scroll = true,
-	float_opts = {
-		width = function()
-			return math.floor(vim.o.columns * 0.7)
-		end,
-		height = function()
-			return math.floor(vim.o.lines * 0.7)
-		end,
-	},
-})
-
-
-require("which-key").add({
-			{"<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File [E]xplorer" },
-			{"<leader>q","<cmd>qall<CR>", desc = "[q]uit" },
-			{"<leader>k","<cmd>bdelete<CR>", desc = "[K]ill Buffer" },
-			{"<leader>w","<cmd>w<CR>", desc = "[w]rite" },
-})
-
-vim.keymap.set("n", "<leader>m", require("messenger").show, {desc = "Show Commit Message"} )
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
