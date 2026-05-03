@@ -1,0 +1,29 @@
+position = "Bottom"
+
+[appearance]
+font_name = "Iosevka"
+scale_factor = 1.4
+style = "Solid"
+
+text_color = "#eeeeee"
+
+workspace_colors = [ "#ffffff", "#222222" ]
+
+[appearance.background_color]
+base = "#000000"
+weak = "#222222"
+strong = "#444444"
+
+[appearance.primary_color]
+base = "#dddddd"
+
+[appearance.secondary_color]
+base = "#111111"
+
+[appearance.success_color]
+base = "#9ece6a"
+
+[appearance.danger_color]
+base = "#f7768e"
+weak = "#e0af68"
+

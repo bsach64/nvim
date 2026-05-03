@@ -3,7 +3,7 @@ set -euxo pipefail
 
 echo "update"
 sudo apt update -y && sudo apt upgrade -y
-sudo apt install git curl make build-essential fontconfig unzip -y
+sudo apt install git curl make build-essential fontconfig vim unzip -y
 
 mkdir -p $HOME/.config/
 mkdir -p $HOME/Code/
@@ -107,6 +107,9 @@ mkdir -p $HOME/.local/share/fonts/
 find "/tmp/font-install/extracted" -name "*.ttf" -exec cp {} "$HOME/.local/share/fonts/" \;
 fc-cache -fv "$HOME/.local/share/fonts/" > /dev/null 2>&1
 rm -rf /tmp/font-install/
+
+echo "slack"
+sudo snap install slack
 
 # install gh and login
 echo "github"
